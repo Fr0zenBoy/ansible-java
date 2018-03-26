@@ -1,0 +1,35 @@
+---
+- hosts: saas
+  become: yes
+
+  tasks:
+    - name: instala dependencias do saas
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+        with_items:
+          - nodejs
+          - nginx
+          - postgresql-9.4
+          - pgadmin3
+          - python3.5
+        become: yes
+
+    - name: add repo java8
+      apt_repository:
+        repo: 'ppa:webupd8team/java'
+
+    - name: selecionar licenca
+      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+
+    - name:
+      shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
+
+    - name: instalar java
+      apt:
+        name: oracle-java8-installer
+        state: latest
+        update_cache: yes
+        force: yes
+      become: yes
+
