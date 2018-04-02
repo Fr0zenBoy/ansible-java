@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+
+  tasks: 
+
+   - name: faz o git pull
+     git:
+      repo: https://github.com/thiagodocket/ansible-java.git
+      dest: home/cat92/Desktop/devops/gittxt/
+      clone: no
+      update: yes
